@@ -158,28 +158,15 @@
         .logo-icon {
             width: 48px;
             height: 48px;
-            image-rendering: pixelated;
             background: #3a3a3a;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 2rem;
             border: 2px solid #555;
             box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
             flex-shrink: 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-icon .slime-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
         }
 
         .nav {
@@ -272,7 +259,6 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
-            position: relative;
         }
 
         .slime-image {
@@ -342,46 +328,10 @@
         }
 
         @keyframes slimeBounce {
-            0%, 100% {
-                transform: translateY(0) scale(1, 1);
-            }
-            30% {
-                transform: translateY(-20px) scale(1.1, 0.9);
-            }
-            50% {
-                transform: translateY(0) scale(0.95, 1.05);
-            }
-            70% {
-                transform: translateY(-8px) scale(1.05, 0.95);
-            }
-        }
-
-        .floating-slimes {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            top: 0;
-            left: 0;
-        }
-
-        .floating-slime {
-            position: absolute;
-            font-size: 2rem;
-            animation: floatAround 6s ease-in-out infinite;
-            opacity: 0.3;
-        }
-
-        .floating-slime:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
-        .floating-slime:nth-child(2) { top: 60%; left: 90%; animation-delay: 1.5s; }
-        .floating-slime:nth-child(3) { top: 80%; left: 15%; animation-delay: 3s; }
-        .floating-slime:nth-child(4) { top: 20%; left: 85%; animation-delay: 4.5s; }
-
-        @keyframes floatAround {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-15px) rotate(5deg); }
-            50% { transform: translateY(0) rotate(0deg); }
-            75% { transform: translateY(10px) rotate(-5deg); }
+            0%, 100% { transform: translateY(0) scale(1, 1); }
+            30% { transform: translateY(-20px) scale(1.1, 0.9); }
+            50% { transform: translateY(0) scale(0.95, 1.05); }
+            70% { transform: translateY(-8px) scale(1.05, 0.95); }
         }
 
         .hero h1 {
@@ -488,7 +438,6 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            cursor: default;
         }
 
         .product-card::before {
@@ -509,37 +458,27 @@
             box-shadow: var(--shadow), 0 0 40px rgba(76, 175, 80, 0.08);
         }
 
-        .product-card.featured {
-            border-color: #4a4a2a;
-        }
+        .product-card.featured { border-color: #4a4a2a; }
         .product-card.featured::before {
             background: linear-gradient(90deg, #b8960f, #FFD700, #b8960f);
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
         }
-        .product-card.premium {
-            border-color: #1a4a4a;
-        }
+        .product-card.premium { border-color: #1a4a4a; }
         .product-card.premium::before {
             background: linear-gradient(90deg, #00838f, #00e5ff, #00838f);
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
         }
-        .product-card.shard-card {
-            border-color: #3a2a4a;
-        }
+        .product-card.shard-card { border-color: #3a2a4a; }
         .product-card.shard-card::before {
             background: linear-gradient(90deg, #7b2fbe, #b450f5, #7b2fbe);
             box-shadow: 0 0 20px rgba(180, 80, 245, 0.4);
         }
-        .product-card.crate-card {
-            border-color: #4a3a2a;
-        }
+        .product-card.crate-card { border-color: #4a3a2a; }
         .product-card.crate-card::before {
             background: linear-gradient(90deg, #d4a017, #FFD700, #d4a017);
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
         }
-        .product-card.slime-card {
-            border-color: #2a4a2a;
-        }
+        .product-card.slime-card { border-color: #2a4a2a; }
         .product-card.slime-card::before {
             background: linear-gradient(90deg, #4a7a2e, #7bc847, #4a7a2e);
             box-shadow: 0 0 20px rgba(123, 200, 71, 0.5);
@@ -563,7 +502,6 @@
         .product-badge.hot {
             background: #ff3d3d;
             color: #fff;
-            animation: glowPulse 2s infinite;
         }
         .product-badge.sale {
             background: #FFD700;
@@ -572,19 +510,12 @@
         .product-badge.slime-badge {
             background: #7bc847;
             color: #000;
-            animation: glowPulse 2s infinite;
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(255, 61, 61, 0.5); }
-            50% { box-shadow: 0 0 25px rgba(255, 61, 61, 0.9); }
         }
 
         .product-icon {
             font-size: 3rem;
             margin-bottom: 16px;
             display: block;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
             text-align: center;
         }
 
@@ -664,6 +595,8 @@
             text-transform: uppercase;
             font-family: 'Inter', sans-serif;
             margin-top: auto;
+            position: relative;
+            z-index: 5;
         }
 
         .btn-add.green {
@@ -806,11 +739,6 @@
             padding: 14px 16px;
             border-radius: var(--radius-sm);
             border: 1px solid #2a2a2a;
-            transition: var(--transition);
-        }
-
-        .cart-item:hover {
-            border-color: #444;
         }
 
         .cart-item-icon {
@@ -825,9 +753,6 @@
             font-weight: 600;
             color: #fff;
             font-size: 0.9rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         .cart-item-price {
             color: #aaa;
@@ -839,10 +764,8 @@
             color: #777;
             cursor: pointer;
             font-size: 1.2rem;
-            transition: var(--transition);
             padding: 6px;
             border-radius: 50%;
-            flex-shrink: 0;
         }
         .cart-item-remove:hover {
             color: #ff3d3d;
@@ -905,13 +828,11 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
             font-size: 0.9rem;
-            letter-spacing: 0.3px;
         }
         .toast.show {
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Discord popup */
         .discord-popup {
             display: none;
             position: fixed;
@@ -978,7 +899,6 @@
             cursor: pointer;
             font-weight: 600;
             margin-top: 12px;
-            transition: var(--transition);
         }
         .discord-close:hover {
             background: #555;
@@ -995,53 +915,27 @@
         .footer a {
             color: #888;
             text-decoration: none;
-            transition: var(--transition);
         }
         .footer a:hover {
             color: #fff;
         }
 
         @media (max-width: 768px) {
-            .header {
-                top: 37px;
-            }
+            .header { top: 37px; }
             .header-inner {
                 flex-direction: column;
                 align-items: stretch;
                 text-align: center;
             }
-            .logo {
-                justify-content: center;
-                font-size: 1.1rem;
-            }
-            .nav {
-                justify-content: center;
-            }
-            .cart-btn {
-                justify-content: center;
-            }
-            .hero h1 {
-                font-size: 1.3rem;
-            }
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .cart-sidebar {
-                max-width: 100%;
-                right: -110%;
-            }
-            .product-price {
-                font-size: 1.5rem;
-            }
-            .info-bar {
-                font-size: 0.65rem;
-                padding: 8px 12px;
-            }
-            .slime-image {
-                width: 80px;
-                height: 80px;
-            }
+            .logo { justify-content: center; font-size: 1.1rem; }
+            .nav { justify-content: center; }
+            .cart-btn { justify-content: center; }
+            .hero h1 { font-size: 1.3rem; }
+            .products-grid { grid-template-columns: 1fr; gap: 16px; }
+            .cart-sidebar { max-width: 100%; right: -110%; }
+            .product-price { font-size: 1.5rem; }
+            .info-bar { font-size: 0.65rem; padding: 8px 12px; }
+            .slime-image { width: 80px; height: 80px; }
         }
     </style>
 </head>
@@ -1056,9 +950,7 @@
     <header class="header">
         <div class="container header-inner">
             <a href="#" class="logo">
-                <span class="logo-icon">
-                    <span class="slime-face">🟢</span>
-                </span>
+                <span class="logo-icon">🟢</span>
                 SlimeeSMP
             </a>
             <nav class="nav">
@@ -1066,7 +958,7 @@
                 <a href="#shards" class="nav-link">Shards</a>
                 <a href="#crates" class="nav-link">Crate Keys</a>
             </nav>
-            <button class="cart-btn" id="cartToggle" aria-label="Open cart">
+            <button class="cart-btn" id="cartToggle">
                 🛒 Cart <span class="cart-count" id="cartCount">0</span>
             </button>
         </div>
@@ -1083,7 +975,505 @@
                     <div class="slime-mouth"></div>
                 </div>
             </div>
-            <div class="floating-slimes">
-                <span class="floating-slime">🟢</span>
-                <span class="floating-slime">🟢</span>
-                <span class="fl
+            <h1>Welcome to <span class="highlight">SlimeeSMP</span> Store</h1>
+            <p class="subtitle">Purchase VIP ranks, shards and crate keys for our Minecraft server. All prices are in Money (in-game currency).</p>
+            <div class="server-ip" title="Click to copy IP address">
+                <span class="dot"></span> SlimeSMP.aternos.me
+            </div>
+        </section>
+
+        <!-- VIP RANKS -->
+        <section id="ranks">
+            <div class="section-header">
+                <span class="section-title">⭐ VIP Ranks</span>
+                <p style="color:#888;margin-top:12px;">Unlock perks and exclusive features on the server</p>
+            </div>
+            <div class="products-grid">
+                <!-- SLIME -->
+                <div class="product-card slime-card">
+                    <span class="product-badge slime-badge">🟢 NEW</span>
+                    <span class="product-icon">🟢</span>
+                    <h3 class="product-name">SLIME</h3>
+                    <p class="product-desc">Basic slime rank for dedicated players</p>
+                    <ul class="product-features">
+                        <li>Green nickname in chat</li>
+                        <li>/kit slime every 24h</li>
+                        <li>Slime particle effects</li>
+                        <li>3 homes (/sethome)</li>
+                        <li>Access to /slimeshop</li>
+                    </ul>
+                    <p class="product-price">120,000 <span class="currency">Money</span></p>
+                    <button class="btn-add slime-btn" data-name="SLIME Rank" data-price="120000" data-icon="🟢">Add to Cart</button>
+                </div>
+
+                <!-- SLIME+ -->
+                <div class="product-card slime-card featured">
+                    <span class="product-badge hot">🔥 POPULAR</span>
+                    <span class="product-icon">🟢</span>
+                    <h3 class="product-name">SLIME+</h3>
+                    <p class="product-desc">Enhanced slime rank with extra perks</p>
+                    <ul class="product-features">
+                        <li>All SLIME perks</li>
+                        <li>/kit slimeplus every 12h</li>
+                        <li>8 homes</li>
+                        <li>/bounce command (super jump)</li>
+                        <li>Slime trail particles</li>
+                        <li>Green chat color</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">280,000 Money</span> 220,000 <span class="currency">Money</span></p>
+                    <button class="btn-add slime-btn" data-name="SLIME+ Rank" data-price="220000" data-icon="🟢">Add to Cart</button>
+                </div>
+
+                <!-- VIP -->
+                <div class="product-card">
+                    <span class="product-badge">Popular</span>
+                    <span class="product-icon">🥈</span>
+                    <h3 class="product-name">VIP</h3>
+                    <p class="product-desc">Basic VIP perks for beginners</p>
+                    <ul class="product-features">
+                        <li>Colored nickname in chat</li>
+                        <li>/kit vip every 24h</li>
+                        <li>Access to VIP zone</li>
+                        <li>5 homes (/sethome)</li>
+                    </ul>
+                    <p class="product-price">150,000 <span class="currency">Money</span></p>
+                    <button class="btn-add green" data-name="VIP Rank" data-price="150000" data-icon="🥈">Add to Cart</button>
+                </div>
+                <!-- VIP+ -->
+                <div class="product-card featured">
+                    <span class="product-badge hot">🔥 TOP</span>
+                    <span class="product-icon">🥇</span>
+                    <h3 class="product-name">VIP+</h3>
+                    <p class="product-desc">Enhanced VIP with extra benefits</p>
+                    <ul class="product-features">
+                        <li>All VIP perks</li>
+                        <li>/kit vipplus every 12h</li>
+                        <li>10 homes</li>
+                        <li>/fly in lobby</li>
+                        <li>Colored chat messages</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">350,000 Money</span> 275,000 <span class="currency">Money</span></p>
+                    <button class="btn-add gold" data-name="VIP+ Rank" data-price="275000" data-icon="🥇">Add to Cart</button>
+                </div>
+                <!-- MVP -->
+                <div class="product-card">
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">MVP</h3>
+                    <p class="product-desc">For real players who want the maximum</p>
+                    <ul class="product-features">
+                        <li>All VIP+ perks</li>
+                        <li>/kit mvp every 6h</li>
+                        <li>20 homes</li>
+                        <li>/fly everywhere</li>
+                        <li>/hat command</li>
+                        <li>Priority server access</li>
+                    </ul>
+                    <p class="product-price">450,000 <span class="currency">Money</span></p>
+                    <button class="btn-add green" data-name="MVP Rank" data-price="450000" data-icon="💎">Add to Cart</button>
+                </div>
+                <!-- MVP+ -->
+                <div class="product-card premium">
+                    <span class="product-badge sale">SALE</span>
+                    <span class="product-icon">👑</span>
+                    <h3 class="product-name">MVP+</h3>
+                    <p class="product-desc">Ultimate rank with unlimited possibilities</p>
+                    <ul class="product-features">
+                        <li>All MVP perks</li>
+                        <li>/kit mvpplus every 3h</li>
+                        <li>Unlimited homes</li>
+                        <li>/nick command</li>
+                        <li>/enderchest anywhere</li>
+                        <li>Exclusive cosmetics</li>
+                        <li>Custom prefix</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">850,000 Money</span> 625,000 <span class="currency">Money</span></p>
+                    <button class="btn-add diamond" data-name="MVP+ Rank" data-price="625000" data-icon="👑">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SHARDS -->
+        <section id="shards" style="margin-top: 40px;">
+            <div class="section-header">
+                <span class="section-title">💎 Shards</span>
+                <p style="color:#888;margin-top:12px;">Purchase shards with in-game Money to unlock special rewards</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card shard-card">
+                    <span class="product-icon">💠</span>
+                    <h3 class="product-name">50 Shards</h3>
+                    <p class="product-desc">Small shard pack for quick upgrades</p>
+                    <ul class="product-features">
+                        <li>50 shards instantly</li>
+                        <li>Use in /shardshop</li>
+                        <li>Unlock special items</li>
+                    </ul>
+                    <p class="product-price">200,000 <span class="currency">Money</span></p>
+                    <button class="btn-add shard" data-name="50 Shards" data-price="200000" data-icon="💠">Add to Cart</button>
+                </div>
+                <div class="product-card shard-card featured">
+                    <span class="product-badge hot">🔥 POPULAR</span>
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">150 Shards</h3>
+                    <p class="product-desc">Most popular shard pack + 10 bonus</p>
+                    <ul class="product-features">
+                        <li>150 shards + 10 bonus</li>
+                        <li>Best value for money</li>
+                        <li>Unlock rare cosmetics</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">550,000 Money</span> 480,000 <span class="currency">Money</span></p>
+                    <button class="btn-add shard" data-name="150 Shards" data-price="480000" data-icon="💎">Add to Cart</button>
+                </div>
+                <div class="product-card shard-card">
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">400 Shards</h3>
+                    <p class="product-desc">Large shard pack + 50 bonus shards</p>
+                    <ul class="product-features">
+                        <li>400 shards + 50 bonus</li>
+                        <li>Great for dedicated players</li>
+                        <li>Unlock legendary items</li>
+                    </ul>
+                    <p class="product-price">1,200,000 <span class="currency">Money</span></p>
+                    <button class="btn-add shard" data-name="400 Shards" data-price="1200000" data-icon="💎">Add to Cart</button>
+                </div>
+                <div class="product-card shard-card premium">
+                    <span class="product-badge sale">BEST VALUE</span>
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">1,000 Shards</h3>
+                    <p class="product-desc">Mega shard pack + 200 bonus shards</p>
+                    <ul class="product-features">
+                        <li>1,000 shards + 200 bonus</li>
+                        <li>Maximum savings</li>
+                        <li>Unlock everything instantly</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">3,500,000 Money</span> 2,800,000 <span class="currency">Money</span></p>
+                    <button class="btn-add shard" data-name="1,000 Shards" data-price="2800000" data-icon="💎">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRATE KEYS -->
+        <section id="crates" style="margin-top: 40px;">
+            <div class="section-header">
+                <span class="section-title">🔑 Crate Keys</span>
+                <p style="color:#888;margin-top:12px;">Unlock powerful loot from special crates</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card crate-card">
+                    <span class="product-badge hot">🔥 PvP</span>
+                    <span class="product-icon">⚔️</span>
+                    <h3 class="product-name">PvP Crate Key</h3>
+                    <p class="product-desc">Unlock PvP gear, potions and weapons</p>
+                    <ul class="product-features">
+                        <li>Sharpness V swords</li>
+                        <li>Protection IV armor</li>
+                        <li>Strength II potions</li>
+                        <li>Ender pearls</li>
+                    </ul>
+                    <p class="product-price">175,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="PvP Crate Key" data-price="175000" data-icon="⚔️">Add to Cart</button>
+                </div>
+                <div class="product-card crate-card featured">
+                    <span class="product-badge hot">🔥 OP</span>
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">OP Netherite Crate Key</h3>
+                    <p class="product-desc">Chance for maxed netherite gear and upgrades</p>
+                    <ul class="product-features">
+                        <li>Full Netherite Armor</li>
+                        <li>Netherite Tools</li>
+                        <li>Ancient Debris</li>
+                        <li>Netherite Upgrade Templates</li>
+                    </ul>
+                    <p class="product-price">350,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="OP Netherite Crate Key" data-price="350000" data-icon="💎">Add to Cart</button>
+                </div>
+                <div class="product-card crate-card">
+                    <span class="product-icon">💠</span>
+                    <h3 class="product-name">Diamond Crate Key</h3>
+                    <p class="product-desc">Unlock diamond gear and valuable resources</p>
+                    <ul class="product-features">
+                        <li>Diamond Armor</li>
+                        <li>Diamond Tools</li>
+                        <li>Enchanted Books</li>
+                        <li>Diamond Blocks</li>
+                    </ul>
+                    <p class="product-price">220,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="Diamond Crate Key" data-price="220000" data-icon="💠">Add to Cart</button>
+                </div>
+                <div class="product-card crate-card premium">
+                    <span class="product-badge sale">RARE</span>
+                    <span class="product-icon">🕸️</span>
+                    <h3 class="product-name">Spawner Crate Key</h3>
+                    <p class="product-desc">Chance to get mob spawners for your farm</p>
+                    <ul class="product-features">
+                        <li>Zombie Spawner</li>
+                        <li>Skeleton Spawner</li>
+                        <li>Spider Spawner</li>
+                        <li>Blaze Spawner</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">500,000 Money</span> 425,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="Spawner Crate Key" data-price="425000" data-icon="🕸️">Add to Cart</button>
+                </div>
+                <div class="product-card crate-card">
+                    <span class="product-badge">GEMS</span>
+                    <span class="product-icon">💜</span>
+                    <h3 class="product-name">Amethyst Crate Key</h3>
+                    <p class="product-desc">Unlock amethyst gear, shards and rare crystals</p>
+                    <ul class="product-features">
+                        <li>Amethyst Shards</li>
+                        <li>Spyglass</li>
+                        <li>Tinted Glass</li>
+                        <li>Calibrated Sculk Sensors</li>
+                    </ul>
+                    <p class="product-price">195,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="Amethyst Crate Key" data-price="195000" data-icon="💜">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            🛒 Your Cart
+            <button class="cart-close" id="cartClose">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">Cart is empty 🛒<br><small>Add some items!</small></div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">0 Money</span>
+            </div>
+            <button class="btn-checkout" id="btnCheckout" disabled>Proceed to Checkout</button>
+        </div>
+    </aside>
+
+    <!-- Discord popup -->
+    <div class="discord-popup" id="discordPopup">
+        <div class="discord-popup-content">
+            <div class="discord-popup-icon">💬</div>
+            <h2>Join our Discord!</h2>
+            <p>To complete your purchase, join our <strong>SlimeeSMP</strong> Discord server and open a ticket in the <strong>#shop</strong> channel!</p>
+            <p style="color:#ffd700;font-size:0.8rem;">⚠️ You must send the money first!</p>
+            <a href="https://discord.gg/DfByAQptz" target="_blank" class="discord-link">🔗 Join SlimeeSMP Discord</a>
+            <br>
+            <button class="discord-close" id="discordClose">Close</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <footer class="footer">
+        <p>© 2026 <strong>SlimeeSMP</strong> - All rights reserved. | <a href="https://discord.gg/DfByAQptz" target="_blank">Discord</a> | <a href="#">Support</a></p>
+        <p style="margin-top: 6px; font-size:0.7rem;">SlimeSMP.aternos.me | After purchase, join our Discord. You must pay first!</p>
+    </footer>
+
+    <script>
+        (function() {
+            let cart = [];
+
+            const cartToggle = document.getElementById('cartToggle');
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartOverlay = document.getElementById('cartOverlay');
+            const cartClose = document.getElementById('cartClose');
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+            const btnCheckout = document.getElementById('btnCheckout');
+            const toast = document.getElementById('toast');
+            const discordPopup = document.getElementById('discordPopup');
+            const discordClose = document.getElementById('discordClose');
+
+            function formatMoney(amount) {
+                return amount.toLocaleString('en-US') + ' Money';
+            }
+
+            function saveCart() {
+                localStorage.setItem('slimeesmp_cart', JSON.stringify(cart));
+            }
+
+            function loadCart() {
+                try {
+                    const saved = localStorage.getItem('slimeesmp_cart');
+                    if (saved) {
+                        cart = JSON.parse(saved);
+                        if (!Array.isArray(cart)) cart = [];
+                    }
+                } catch (e) {
+                    cart = [];
+                }
+            }
+
+            function updateCartUI() {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+                cartCount.textContent = totalItems;
+                cartCount.classList.add('pulse');
+                setTimeout(() => cartCount.classList.remove('pulse'), 400);
+
+                cartTotal.textContent = formatMoney(totalPrice);
+                btnCheckout.disabled = cart.length === 0;
+
+                if (cart.length === 0) {
+                    cartItems.innerHTML = '<div class="cart-empty">Cart is empty 🛒<br><small>Add some items!</small></div>';
+                } else {
+                    cartItems.innerHTML = cart.map((item, index) => `
+                            <div class="cart-item">
+                                <span class="cart-item-icon">${item.icon || '📦'}</span>
+                                <div class="cart-item-info">
+                                    <div class="cart-item-name">${item.name}</div>
+                                    <div class="cart-item-price">${formatMoney(item.price)} × ${item.quantity} = <strong>${formatMoney(item.price * item.quantity)}</strong></div>
+                                </div>
+                                <button class="cart-item-remove" data-index="${index}" title="Remove">🗑️</button>
+                            </div>
+                        `).join('');
+
+                    document.querySelectorAll('.cart-item-remove').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const idx = parseInt(this.getAttribute('data-index'));
+                            removeFromCart(idx);
+                        });
+                    });
+                }
+            }
+
+            function addToCart(name, price, icon) {
+                const existing = cart.find(item => item.name === name && item.price === price);
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    cart.push({
+                        name: name,
+                        price: price,
+                        icon: icon || '📦',
+                        quantity: 1
+                    });
+                }
+                saveCart();
+                updateCartUI();
+                showToast('✅ ' + name + ' added to cart!');
+            }
+
+            function removeFromCart(index) {
+                if (index >= 0 && index < cart.length) {
+                    const removed = cart[index];
+                    if (removed.quantity > 1) {
+                        removed.quantity -= 1;
+                    } else {
+                        cart.splice(index, 1);
+                    }
+                    saveCart();
+                    updateCartUI();
+                    showToast('❌ ' + removed.name + ' removed from cart');
+                }
+            }
+
+            function openCart() {
+                cartSidebar.classList.add('open');
+                cartOverlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeCart() {
+                cartSidebar.classList.remove('open');
+                cartOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            let toastTimer;
+            function showToast(message) {
+                clearTimeout(toastTimer);
+                toast.textContent = message;
+                toast.classList.add('show');
+                toastTimer = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
+            }
+
+            function showDiscordPopup() {
+                discordPopup.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function hideDiscordPopup() {
+                discordPopup.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+
+            function handleCheckout() {
+                if (cart.length === 0) return;
+                closeCart();
+                showDiscordPopup();
+                showToast('🎉 Order ready! Join Discord to complete payment.');
+            }
+
+            // Event Listeners
+            cartToggle.addEventListener('click', openCart);
+            cartClose.addEventListener('click', closeCart);
+            cartOverlay.addEventListener('click', closeCart);
+            btnCheckout.addEventListener('click', handleCheckout);
+            discordClose.addEventListener('click', hideDiscordPopup);
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (cartSidebar.classList.contains('open')) closeCart();
+                    if (discordPopup.classList.contains('show')) hideDiscordPopup();
+                }
+            });
+
+            // Add to cart buttons
+            document.querySelectorAll('.btn-add').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const name = this.getAttribute('data-name');
+                    const price = parseInt(this.getAttribute('data-price'));
+                    const icon = this.getAttribute('data-icon');
+                    if (name && !isNaN(price)) {
+                        addToCart(name, price, icon);
+                        this.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 150);
+                    }
+                });
+            });
+
+            // Copy server IP
+            const serverIpEl = document.querySelector('.server-ip');
+            if (serverIpEl) {
+                serverIpEl.addEventListener('click', function() {
+                    const ip = this.textContent.trim();
+                    navigator.clipboard.writeText(ip).then(() => {
+                        showToast('📋 Address copied: ' + ip);
+                    }).catch(() => {
+                        showToast('📋 Address: ' + ip);
+                    });
+                });
+            }
+
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        const target = document.querySelector(targetId);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                            this.classList.add('active');
+                        }
+                    }
+                });
+            });
+
+            loadCart();
+            updateCartUI();
+        })();
+    </script>
+</body>
+</html>
