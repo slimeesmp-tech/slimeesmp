@@ -1,288 +1,1502 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SlimeeSMP - Rank Shop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>🔥 SlimeeSMP Store - Minecraft Server Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0a;
+            --bg-card: #1a1a1a;
+            --bg-card-hover: #222;
+            --green: #4CAF50;
+            --green-glow: #66ff66;
+            --gold: #FFD700;
+            --gold-dark: #b8960f;
+            --diamond: #00e5ff;
+            --diamond-dark: #00838f;
+            --red: #ff3d3d;
+            --text: #e0e0e0;
+            --text-muted: #999;
+            --border: #333;
+            --border-active: #4CAF50;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --shadow-green: 0 0 30px rgba(76, 175, 80, 0.3);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background: #1a1a2e;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            color: #e0e0e0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            background-image:
+                radial-gradient(ellipse at 20% 0%, rgba(76, 175, 80, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 100%, rgba(0, 229, 255, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
+            background-attachment: fixed;
+            line-height: 1.6;
         }
-        .main-container { max-width: 650px; width: 100%; margin-top: 20px; }
-        .header {
-            text-align: center;
-            padding: 30px 20px;
-            background: rgba(30, 30, 40, 0.85);
-            border: 3px solid #4caf50;
-            border-radius: 20px;
-            margin-bottom: 30px;
+
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .header h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1.8rem;
-            color: #81c784;
+        ::-webkit-scrollbar-track {
+            background: #111;
         }
-        .section {
-            background: rgba(30, 30, 40, 0.9);
-            border: 2px solid #4caf50;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
         }
-        .section h2 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.9rem;
-            color: #81c784;
-            margin-bottom: 20px;
-            text-align: center;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
-        .form-group { margin-bottom: 18px; }
-        .form-group label {
-            display: block;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.55rem;
-            color: #a5d6a7;
-            margin-bottom: 8px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 14px 18px;
-            background: #1a1a2e;
-            border: 2px solid #4caf50;
-            border-radius: 10px;
-            color: #e0e0e0;
-            font-size: 1rem;
-        }
-        .rank-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        @media (max-width: 500px) {
-            .rank-grid { grid-template-columns: 1fr; }
-            .header h1 { font-size: 1.2rem; }
-        }
-        .rank-card {
-            background: rgba(26,26,46,0.8);
-            border: 2px solid #3a3a5a;
-            border-radius: 14px;
-            padding: 20px 15px;
-            text-align: center;
-            cursor: pointer;
-        }
-        .rank-card.selected {
-            border-color: #ffd54f !important;
-            background: rgba(40,40,20,0.9) !important;
-        }
-        .rank-emoji { font-size: 2.5rem; display: block; margin-bottom: 8px; }
-        .rank-name { font-family: 'Press Start 2P', cursive; font-size: 0.6rem; color: #81c784; }
-        .rank-price { font-family: 'Press Start 2P', cursive; font-size: 0.7rem; color: #ffd54f; }
-        .rank-desc { font-size: 0.75rem; color: #aaa; margin-top: 6px; }
-        .buy-button {
-            width: 100%;
-            padding: 18px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-            background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #1b5e20;
-            transition: all 0.15s ease;
-        }
-        .buy-button:disabled { background: #555; box-shadow: 0 4px 0 #333; cursor: not-allowed; }
-        .modal-overlay {
+
+        .pixel-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.75);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.015;
+            background-image: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.3) 2px,
+                    rgba(0, 0, 0, 0.3) 4px),
+                repeating-linear-gradient(90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.3) 2px,
+                    rgba(0, 0, 0, 0.3) 4px);
+        }
+
+        .info-bar {
+            background: #1a1a1a;
+            border-bottom: 2px solid #333;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #bbb;
+            letter-spacing: 0.3px;
+            position: sticky;
+            top: 0;
+            z-index: 101;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(26, 26, 26, 0.9);
+        }
+
+        .info-bar span {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .info-bar .discord {
+            color: #7289da;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header {
+            position: sticky;
+            top: 37px;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 2px solid #222;
+            padding: 16px 0;
+            transition: var(--transition);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            color: var(--green-glow);
+            text-shadow: 0 0 20px rgba(102, 255, 102, 0.6);
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            image-rendering: pixelated;
+            background: #3a3a3a;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            font-size: 1.8rem;
+            border: 2px solid #555;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
         }
-        .modal-box {
-            background: #1e1e28;
-            border: 3px solid #ffd54f;
-            border-radius: 20px;
-            padding: 35px 25px;
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
+
+        .logo-icon .slime-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
         }
-        .command-highlight {
-            display: inline-block;
-            background: #0d0d1a;
-            color: #81c784;
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #bbb;
+            text-decoration: none;
+            font-weight: 500;
             padding: 10px 18px;
-            border-radius: 8px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            margin: 10px 0;
-            word-break: break-all;
+            border-radius: 50px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
         }
-        .modal-close-btn {
-            margin-top: 18px;
-            padding: 12px 30px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.6rem;
-            background: #ffd54f;
-            color: #1a1a2e;
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link.active {
+            background: rgba(76, 175, 80, 0.15);
+            color: var(--green-glow);
+            font-weight: 600;
+        }
+
+        .cart-btn {
+            position: relative;
+            background: var(--green);
+            color: #000;
             border: none;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 50px;
             cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
         }
-        .hidden { display: none !important; }
-        .status-msg { text-align: center; color: #ef5350; min-height: 20px; margin-top: 10px; }
+
+        .cart-btn:hover {
+            background: #5cbf5f;
+            box-shadow: 0 0 25px rgba(76, 175, 80, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            background: #000;
+            color: #fff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            min-width: 24px;
+        }
+
+        .cart-count.pulse {
+            animation: pulse 0.4s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+
+        .slime-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .slime-image {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #7bc847, #5a9e2f);
+            border-radius: 50% 50% 45% 45%;
+            position: relative;
+            box-shadow: 
+                0 0 30px rgba(123, 200, 71, 0.5),
+                0 0 60px rgba(123, 200, 71, 0.3),
+                0 8px 20px rgba(0, 0, 0, 0.5);
+            animation: slimeBounce 2s ease-in-out infinite;
+            border: 3px solid #4a7a2e;
+        }
+
+        .slime-image::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .slime-eyes {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .slime-eye {
+            width: 16px;
+            height: 18px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .slime-eye::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+        }
+
+        .slime-mouth {
+            position: absolute;
+            bottom: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 12px;
+            border: 3px solid #1a1a1a;
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+        }
+
+        @keyframes slimeBounce {
+            0%, 100% {
+                transform: translateY(0) scale(1, 1);
+            }
+            30% {
+                transform: translateY(-20px) scale(1.1, 0.9);
+            }
+            50% {
+                transform: translateY(0) scale(0.95, 1.05);
+            }
+            70% {
+                transform: translateY(-8px) scale(1.05, 0.95);
+            }
+        }
+
+        .floating-slimes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+        }
+
+        .floating-slime {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatAround 6s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        .floating-slime:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .floating-slime:nth-child(2) { top: 60%; left: 90%; animation-delay: 1.5s; }
+        .floating-slime:nth-child(3) { top: 80%; left: 15%; animation-delay: 3s; }
+        .floating-slime:nth-child(4) { top: 20%; left: 85%; animation-delay: 4.5s; }
+
+        @keyframes floatAround {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(5deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(10px) rotate(-5deg); }
+        }
+
+        .hero h1 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .hero h1 .highlight {
+            color: var(--green-glow);
+            text-shadow: 0 0 40px rgba(102, 255, 102, 0.7);
+        }
+
+        .hero .subtitle {
+            color: #aaa;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 24px;
+            font-weight: 400;
+        }
+
+        .server-ip {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #1a1a1a;
+            border: 2px dashed #444;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.75rem;
+            color: #ccc;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            cursor: pointer;
+            user-select: all;
+        }
+
+        .server-ip:hover {
+            border-color: var(--green);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.25);
+        }
+
+        .server-ip .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4CAF50;
+            box-shadow: 0 0 10px #4CAF50;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 28px;
+            text-align: center;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--green);
+            border-radius: 3px;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.6);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 2px solid #252525;
+            border-radius: var(--radius);
+            padding: 28px 24px 24px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: default;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #333, #555, #333);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            background: var(--bg-card-hover);
+            border-color: #3a3a3a;
+            transform: translateY(-6px);
+            box-shadow: var(--shadow), 0 0 40px rgba(76, 175, 80, 0.08);
+        }
+
+        .product-card.featured {
+            border-color: #4a4a2a;
+        }
+        .product-card.featured::before {
+            background: linear-gradient(90deg, #b8960f, #FFD700, #b8960f);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        .product-card.premium {
+            border-color: #1a4a4a;
+        }
+        .product-card.premium::before {
+            background: linear-gradient(90deg, #00838f, #00e5ff, #00838f);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+        }
+        .product-card.shard-card {
+            border-color: #3a2a4a;
+        }
+        .product-card.shard-card::before {
+            background: linear-gradient(90deg, #7b2fbe, #b450f5, #7b2fbe);
+            box-shadow: 0 0 20px rgba(180, 80, 245, 0.4);
+        }
+        .product-card.crate-card {
+            border-color: #4a3a2a;
+        }
+        .product-card.crate-card::before {
+            background: linear-gradient(90deg, #d4a017, #FFD700, #d4a017);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        .product-card.slime-card {
+            border-color: #2a4a2a;
+        }
+        .product-card.slime-card::before {
+            background: linear-gradient(90deg, #4a7a2e, #7bc847, #4a7a2e);
+            box-shadow: 0 0 20px rgba(123, 200, 71, 0.5);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #2a2a2a;
+            color: #ccc;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .product-badge.hot {
+            background: #ff3d3d;
+            color: #fff;
+            animation: glowPulse 2s infinite;
+        }
+        .product-badge.sale {
+            background: #FFD700;
+            color: #000;
+        }
+        .product-badge.slime-badge {
+            background: #7bc847;
+            color: #000;
+            animation: glowPulse 2s infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 61, 61, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(255, 61, 61, 0.9); }
+        }
+
+        .product-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+            text-align: center;
+        }
+
+        .product-name {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .product-desc {
+            color: #999;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .product-features {
+            list-style: none;
+            margin-bottom: 20px;
+            font-size: 0.8rem;
+            color: #bbb;
+        }
+
+        .product-features li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .product-features li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-size: 0.55rem;
+            top: 7px;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 4px;
+            word-break: break-word;
+        }
+
+        .product-price .currency {
+            font-size: 0.9rem;
+            color: #999;
+            font-weight: 500;
+        }
+        .product-price .old-price {
+            text-decoration: line-through;
+            color: #666;
+            font-size: 1rem;
+            margin-right: 8px;
+            font-weight: 500;
+            display: block;
+        }
+
+        .btn-add {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
+            margin-top: auto;
+        }
+
+        .btn-add.green {
+            background: var(--green);
+            color: #000;
+        }
+        .btn-add.green:hover {
+            background: #5cbf5f;
+            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-add.gold {
+            background: linear-gradient(135deg, #d4a017, #FFD700);
+            color: #000;
+        }
+        .btn-add.gold:hover {
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-add.diamond {
+            background: linear-gradient(135deg, #00838f, #00e5ff);
+            color: #000;
+        }
+        .btn-add.diamond:hover {
+            box-shadow: 0 6px 25px rgba(0, 229, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-add.shard {
+            background: linear-gradient(135deg, #7b2fbe, #b450f5);
+            color: #fff;
+        }
+        .btn-add.shard:hover {
+            box-shadow: 0 6px 25px rgba(180, 80, 245, 0.6);
+            transform: translateY(-2px);
+        }
+        .btn-add.crate {
+            background: linear-gradient(135deg, #d4a017, #FFD700);
+            color: #000;
+        }
+        .btn-add.crate:hover {
+            box-shadow: 0 6px 25px rgba(255, 215, 0, 0.6);
+            transform: translateY(-2px);
+        }
+        .btn-add.slime-btn {
+            background: linear-gradient(135deg, #4a7a2e, #7bc847);
+            color: #000;
+        }
+        .btn-add.slime-btn:hover {
+            box-shadow: 0 6px 25px rgba(123, 200, 71, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .cart-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 100%;
+            max-width: 440px;
+            height: 100%;
+            background: #111;
+            z-index: 201;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+            border-left: 2px solid #222;
+        }
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 2px solid #222;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            color: #fff;
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-close:hover {
+            background: #222;
+            color: #ff3d3d;
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 16px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            color: #666;
+            padding: 40px 20px;
+            font-size: 0.9rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #1a1a1a;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid #2a2a2a;
+            transition: var(--transition);
+        }
+
+        .cart-item:hover {
+            border-color: #444;
+        }
+
+        .cart-item-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .cart-item-info {
+            flex-grow: 1;
+            min-width: 0;
+        }
+        .cart-item-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .cart-item-price {
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            padding: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .cart-item-remove:hover {
+            color: #ff3d3d;
+            background: rgba(255, 61, 61, 0.1);
+        }
+
+        .cart-footer {
+            padding: 20px 24px;
+            border-top: 2px solid #222;
+        }
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+        .btn-checkout {
+            width: 100%;
+            padding: 16px;
+            background: var(--green);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-checkout:hover {
+            background: #5cbf5f;
+            box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-checkout:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1a1a1a;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            z-index: 300;
+            border: 2px solid var(--green);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+            font-size: 0.8rem;
+            border-top: 2px solid #1a1a1a;
+            margin-top: 40px;
+        }
+        .footer a {
+            color: #888;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                top: 37px;
+            }
+            .header-inner {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .logo {
+                justify-content: center;
+                font-size: 1.1rem;
+            }
+            .nav {
+                justify-content: center;
+            }
+            .cart-btn {
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 1.3rem;
+            }
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .cart-sidebar {
+                max-width: 100%;
+                right: -110%;
+            }
+            .product-price {
+                font-size: 1.5rem;
+            }
+            .info-bar {
+                font-size: 0.65rem;
+                padding: 8px 12px;
+            }
+            .slime-image {
+                width: 80px;
+                height: 80px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <div class="header">
-            <span style="font-size:3rem;">🟢</span>
-            <h1>SLIMEE SMP</h1>
-            <p style="font-family:'Press Start 2P',cursive;font-size:0.55rem;color:#a5d6a7;">RANK SHOP</p>
-        </div>
 
-        <div class="section">
-            <h2>📋 REGISTRACE</h2>
-            <div class="form-group">
-                <label for="nickname">🎮 NICKNAME</label>
-                <input type="text" id="nickname" placeholder="Tvůj herní nick..." maxlength="16">
-            </div>
-            <div class="form-group">
-                <label for="password">🔒 HESLO</label>
-                <input type="password" id="password" placeholder="Heslo pro ověření..." maxlength="32">
-            </div>
-        </div>
+    <div class="pixel-overlay"></div>
 
-        <div class="section">
-            <h2>🏆 VYBER SI RANK</h2>
-            <div class="rank-grid" id="rankGrid"></div>
-        </div>
-
-        <button class="buy-button" id="buyButton" disabled>💰 KOUPIT RANK</button>
-        <div class="status-msg" id="statusMsg"></div>
+    <div class="info-bar">
+        ⚠️ After purchase, message us on <span class="discord">Discord</span> and we will deliver your items. <span>You must send the money first!</span>
     </div>
 
-    <div class="modal-overlay hidden" id="confirmModal">
-        <div class="modal-box">
-            <span style="font-size:4rem;">⚠️</span>
-            <h3 style="font-family:'Press Start 2P',cursive;color:#ffd54f;">POTVRZENÍ VE HŘE</h3>
-            <p>Zadej na serveru <strong>SlimeeSMP</strong> tento příkaz:</p>
-            <span class="command-highlight" id="confirmCommand">/store confirm ...</span>
-            <p style="font-size:0.7rem;color:#aaa;">Platnost 30 sekund</p>
-            <button class="modal-close-btn" id="closeModalBtn">ROZUMÍM 👍</button>
+    <header class="header">
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                <span class="logo-icon">
+                    <span class="slime-face">🟢</span>
+                </span>
+                SlimeeSMP
+            </a>
+            <nav class="nav">
+                <a href="#ranks" class="nav-link active">VIP Ranks</a>
+                <a href="#shards" class="nav-link">Shards</a>
+                <a href="#crates" class="nav-link">Crate Keys</a>
+            </nav>
+            <button class="cart-btn" id="cartToggle" aria-label="Open cart">
+                🛒 Cart <span class="cart-count" id="cartCount">0</span>
+            </button>
         </div>
-    </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="slime-image-container">
+                <div class="slime-image">
+                    <div class="slime-eyes">
+                        <div class="slime-eye"></div>
+                        <div class="slime-eye"></div>
+                    </div>
+                    <div class="slime-mouth"></div>
+                </div>
+            </div>
+            <div class="floating-slimes">
+                <span class="floating-slime">🟢</span>
+                <span class="floating-slime">🟢</span>
+                <span class="floating-slime">🟢</span>
+                <span class="floating-slime">🟢</span>
+            </div>
+            <h1>Welcome to <span class="highlight">SlimeeSMP</span> Store</h1>
+            <p class="subtitle">Purchase VIP ranks, shards and crate keys for our Minecraft server. All prices are in Money (in-game currency).</p>
+            <div class="server-ip" title="Click to copy IP address">
+                <span class="dot"></span> SlimeSMP.aternos.me
+            </div>
+        </section>
+
+        <!-- VIP RANKS -->
+        <section id="ranks">
+            <div class="section-header">
+                <span class="section-title">⭐ VIP Ranks</span>
+                <p style="color:#888;margin-top:12px;">Unlock perks and exclusive features on the server</p>
+            </div>
+            <div class="products-grid">
+                <!-- SLIME -->
+                <div class="product-card slime-card">
+                    <span class="product-badge slime-badge">🟢 NEW</span>
+                    <span class="product-icon">🟢</span>
+                    <h3 class="product-name">SLIME</h3>
+                    <p class="product-desc">Basic slime rank for dedicated players</p>
+                    <ul class="product-features">
+                        <li>Green nickname in chat</li>
+                        <li>/kit slime every 24h</li>
+                        <li>Slime particle effects</li>
+                        <li>3 homes (/sethome)</li>
+                        <li>Access to /slimeshop</li>
+                    </ul>
+                    <p class="product-price">120,000 <span class="currency">Money</span></p>
+                    <button class="btn-add slime-btn" data-name="SLIME Rank" data-price="120000" data-icon="🟢">Add to Cart</button>
+                </div>
+
+                <!-- SLIME+ -->
+                <div class="product-card slime-card featured">
+                    <span class="product-badge hot">🔥 POPULAR</span>
+                    <span class="product-icon">🟢</span>
+                    <h3 class="product-name">SLIME+</h3>
+                    <p class="product-desc">Enhanced slime rank with extra perks</p>
+                    <ul class="product-features">
+                        <li>All SLIME perks</li>
+                        <li>/kit slimeplus every 12h</li>
+                        <li>8 homes</li>
+                        <li>/bounce command (super jump)</li>
+                        <li>Slime trail particles</li>
+                        <li>Green chat color</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">280,000 Money</span> 220,000 <span class="currency">Money</span></p>
+                    <button class="btn-add slime-btn" data-name="SLIME+ Rank" data-price="220000" data-icon="🟢">Add to Cart</button>
+                </div>
+
+                <!-- VIP -->
+                <div class="product-card">
+                    <span class="product-badge">Popular</span>
+                    <span class="product-icon">🥈</span>
+                    <h3 class="product-name">VIP</h3>
+                    <p class="product-desc">Basic VIP perks for beginners</p>
+                    <ul class="product-features">
+                        <li>Colored nickname in chat</li>
+                        <li>/kit vip every 24h</li>
+                        <li>Access to VIP zone</li>
+                        <li>5 homes (/sethome)</li>
+                    </ul>
+                    <p class="product-price">150,000 <span class="currency">Money</span></p>
+                    <button class="btn-add green" data-name="VIP Rank" data-price="150000" data-icon="🥈">Add to Cart</button>
+                </div>
+                <!-- VIP+ -->
+                <div class="product-card featured">
+                    <span class="product-badge hot">🔥 TOP</span>
+                    <span class="product-icon">🥇</span>
+                    <h3 class="product-name">VIP+</h3>
+                    <p class="product-desc">Enhanced VIP with extra benefits</p>
+                    <ul class="product-features">
+                        <li>All VIP perks</li>
+                        <li>/kit vipplus every 12h</li>
+                        <li>10 homes</li>
+                        <li>/fly in lobby</li>
+                        <li>Colored chat messages</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">350,000 Money</span> 275,000 <span class="currency">Money</span></p>
+                    <button class="btn-add gold" data-name="VIP+ Rank" data-price="275000" data-icon="🥇">Add to Cart</button>
+                </div>
+                <!-- MVP -->
+                <div class="product-card">
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">MVP</h3>
+                    <p class="product-desc">For real players who want the maximum</p>
+                    <ul class="product-features">
+                        <li>All VIP+ perks</li>
+                        <li>/kit mvp every 6h</li>
+                        <li>20 homes</li>
+                        <li>/fly everywhere</li>
+                        <li>/hat command</li>
+                        <li>Priority server access</li>
+                    </ul>
+                    <p class="product-price">450,000 <span class="currency">Money</span></p>
+                    <button class="btn-add green" data-name="MVP Rank" data-price="450000" data-icon="💎">Add to Cart</button>
+                </div>
+                <!-- MVP+ -->
+                <div class="product-card premium">
+                    <span class="product-badge sale">SALE</span>
+                    <span class="product-icon">👑</span>
+                    <h3 class="product-name">MVP+</h3>
+                    <p class="product-desc">Ultimate rank with unlimited possibilities</p>
+                    <ul class="product-features">
+                        <li>All MVP perks</li>
+                        <li>/kit mvpplus every 3h</li>
+                        <li>Unlimited homes</li>
+                        <li>/nick command</li>
+                        <li>/enderchest anywhere</li>
+                        <li>Exclusive cosmetics</li>
+                        <li>Custom prefix</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">850,000 Money</span> 625,000 <span class="currency">Money</span></p>
+                    <button class="btn-add diamond" data-name="MVP+ Rank" data-price="625000" data-icon="👑">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SHARDS -->
+        <section id="shards" style="margin-top: 40px;">
+            <div class="section-header">
+                <span class="section-title">💎 Shards</span>
+                <p style="color:#888;margin-top:12px;">Purchase shards with in-game Money to unlock special rewards</p>
+            </div>
+            <div class="products-grid">
+                <!-- Small Shard Pack -->
+                <div class="product-card shard-card">
+                    <span class="product-icon">💠</span>
+                    <h3 class="product-name">50 Shards</h3>
+                    <p class="product-desc">Small shard pack for quick upgrades</p>
+                    <ul class="product-features">
+                        <li>50 shards instantly</li>
+                        <li>Use in /shardshop</li>
+                        <li>Unlock special items</li>
+                    </ul>
+                    <p class="product-price">200,000 <span class="currency">Money</span></p>
+                    <button class="btn-add shard" data-name="50 Shards" data-price="200000" data-icon="💠">Add to Cart</button>
+                </div>
+                <!-- Medium Shard Pack -->
+                <div class="product-card shard-card featured">
+                    <span class="product-badge hot">🔥 POPULAR</span>
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">150 Shards</h3>
+                    <p class="product-desc">Most popular shard pack + 10 bonus</p>
+                    <ul class="product-features">
+                        <li>150 shards + 10 bonus</li>
+                        <li>Best value for money</li>
+                        <li>Unlock rare cosmetics</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">550,000 Money</span> 480,000 <span class="currency">Money</span></p>
+                    <button class="btn-add shard" data-name="150 Shards" data-price="480000" data-icon="💎">Add to Cart</button>
+                </div>
+                <!-- Large Shard Pack -->
+                <div class="product-card shard-card">
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">400 Shards</h3>
+                    <p class="product-desc">Large shard pack + 50 bonus shards</p>
+                    <ul class="product-features">
+                        <li>400 shards + 50 bonus</li>
+                        <li>Great for dedicated players</li>
+                        <li>Unlock legendary items</li>
+                    </ul>
+                    <p class="product-price">1,200,000 <span class="currency">Money</span></p>
+                    <button class="btn-add shard" data-name="400 Shards" data-price="1200000" data-icon="💎">Add to Cart</button>
+                </div>
+                <!-- Mega Shard Pack -->
+                <div class="product-card shard-card premium">
+                    <span class="product-badge sale">BEST VALUE</span>
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">1,000 Shards</h3>
+                    <p class="product-desc">Mega shard pack + 200 bonus shards</p>
+                    <ul class="product-features">
+                        <li>1,000 shards + 200 bonus</li>
+                        <li>Maximum savings</li>
+                        <li>Unlock everything instantly</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">3,500,000 Money</span> 2,800,000 <span class="currency">Money</span></p>
+                    <button class="btn-add shard" data-name="1,000 Shards" data-price="2800000" data-icon="💎">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRATE KEYS -->
+        <section id="crates" style="margin-top: 40px;">
+            <div class="section-header">
+                <span class="section-title">🔑 Crate Keys</span>
+                <p style="color:#888;margin-top:12px;">Unlock powerful loot from special crates</p>
+            </div>
+            <div class="products-grid">
+                <!-- PvP Crate Key -->
+                <div class="product-card crate-card">
+                    <span class="product-badge hot">🔥 PvP</span>
+                    <span class="product-icon">⚔️</span>
+                    <h3 class="product-name">PvP Crate Key</h3>
+                    <p class="product-desc">Unlock PvP gear, potions and weapons</p>
+                    <ul class="product-features">
+                        <li>Sharpness V swords</li>
+                        <li>Protection IV armor</li>
+                        <li>Strength II potions</li>
+                        <li>Ender pearls</li>
+                    </ul>
+                    <p class="product-price">175,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="PvP Crate Key" data-price="175000" data-icon="⚔️">Add to Cart</button>
+                </div>
+                <!-- OP Netherite Crate Key -->
+                <div class="product-card crate-card featured">
+                    <span class="product-badge hot">🔥 OP</span>
+                    <span class="product-icon">💎</span>
+                    <h3 class="product-name">OP Netherite Crate Key</h3>
+                    <p class="product-desc">Chance for maxed netherite gear and upgrades</p>
+                    <ul class="product-features">
+                        <li>Full Netherite Armor</li>
+                        <li>Netherite Tools</li>
+                        <li>Ancient Debris</li>
+                        <li>Netherite Upgrade Templates</li>
+                    </ul>
+                    <p class="product-price">350,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="OP Netherite Crate Key" data-price="350000" data-icon="💎">Add to Cart</button>
+                </div>
+                <!-- Diamond Crate Key -->
+                <div class="product-card crate-card">
+                    <span class="product-icon">💠</span>
+                    <h3 class="product-name">Diamond Crate Key</h3>
+                    <p class="product-desc">Unlock diamond gear and valuable resources</p>
+                    <ul class="product-features">
+                        <li>Diamond Armor</li>
+                        <li>Diamond Tools</li>
+                        <li>Enchanted Books</li>
+                        <li>Diamond Blocks</li>
+                    </ul>
+                    <p class="product-price">220,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="Diamond Crate Key" data-price="220000" data-icon="💠">Add to Cart</button>
+                </div>
+                <!-- Spawner Crate Key -->
+                <div class="product-card crate-card premium">
+                    <span class="product-badge sale">RARE</span>
+                    <span class="product-icon">🕸️</span>
+                    <h3 class="product-name">Spawner Crate Key</h3>
+                    <p class="product-desc">Chance to get mob spawners for your farm</p>
+                    <ul class="product-features">
+                        <li>Zombie Spawner</li>
+                        <li>Skeleton Spawner</li>
+                        <li>Spider Spawner</li>
+                        <li>Blaze Spawner</li>
+                    </ul>
+                    <p class="product-price"><span class="old-price">500,000 Money</span> 425,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="Spawner Crate Key" data-price="425000" data-icon="🕸️">Add to Cart</button>
+                </div>
+                <!-- Amethyst Crate Key -->
+                <div class="product-card crate-card">
+                    <span class="product-badge">GEMS</span>
+                    <span class="product-icon">💜</span>
+                    <h3 class="product-name">Amethyst Crate Key</h3>
+                    <p class="product-desc">Unlock amethyst gear, shards and rare crystals</p>
+                    <ul class="product-features">
+                        <li>Amethyst Shards</li>
+                        <li>Spyglass</li>
+                        <li>Tinted Glass</li>
+                        <li>Calibrated Sculk Sensors</li>
+                    </ul>
+                    <p class="product-price">195,000 <span class="currency">Money</span></p>
+                    <button class="btn-add crate" data-name="Amethyst Crate Key" data-price="195000" data-icon="💜">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            🛒 Your Cart
+            <button class="cart-close" id="cartClose" aria-label="Close cart">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">Cart is empty 🛒<br><small>Add some items!</small></div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">0 Money</span>
+            </div>
+            <button class="btn-checkout" id="btnCheckout" disabled>Proceed to Checkout</button>
+        </div>
+    </aside>
+
+    <div class="toast" id="toast"></div>
+
+    <footer class="footer">
+        <p>© 2026 <strong>SlimeeSMP</strong> - All rights reserved. | Not logged in. | <a href="#">Terms</a> | <a href="#">Support</a></p>
+        <p style="margin-top: 6px; font-size:0.7rem;">Visit us at: SlimeSMP.aternos.me/Shop | After purchase, contact us on Discord. You must pay first!</p>
+    </footer>
 
     <script>
         (function() {
-            const ranks = [
-                { id: 'slime', name: 'SLIME', emoji: '🟢', price: 5000, desc: 'Základní rank' },
-                { id: 'slimer', name: 'SLIMER', emoji: '🟩', price: 15000, desc: 'Lepší výhody' },
-                { id: 'slimest', name: 'SLIMEST', emoji: '💚', price: 35000, desc: 'VIP rank' },
-                { id: 'slime_lord', name: 'SLIME LORD', emoji: '👑', price: 80000, desc: 'Ultimátní rank' }
-            ];
+            let cart = [];
 
-            const nicknameInput = document.getElementById('nickname');
-            const passwordInput = document.getElementById('password');
-            const rankGrid = document.getElementById('rankGrid');
-            const buyButton = document.getElementById('buyButton');
-            const statusMsg = document.getElementById('statusMsg');
-            const confirmModal = document.getElementById('confirmModal');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const confirmCommand = document.getElementById('confirmCommand');
+            const cartToggle = document.getElementById('cartToggle');
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartOverlay = document.getElementById('cartOverlay');
+            const cartClose = document.getElementById('cartClose');
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+            const btnCheckout = document.getElementById('btnCheckout');
+            const toast = document.getElementById('toast');
+            const addButtons = document.querySelectorAll('.btn-add');
 
-            let selectedRank = null;
+            function formatMoney(amount) {
+                return amount.toLocaleString('en-US') + ' Money';
+            }
 
-            ranks.forEach(rank => {
-                const card = document.createElement('div');
-                card.className = 'rank-card';
-                card.innerHTML = `
-                    <span class="rank-emoji">${rank.emoji}</span>
-                    <div class="rank-name">${rank.name}</div>
-                    <div class="rank-price">💰 ${rank.price.toLocaleString('cs-CZ')} $</div>
-                    <div class="rank-desc">${rank.desc}</div>
-                `;
-                card.addEventListener('click', () => {
-                    document.querySelectorAll('.rank-card').forEach(c => c.classList.remove('selected'));
-                    card.classList.add('selected');
-                    selectedRank = rank;
-                    updateBuyButton();
-                    statusMsg.textContent = '';
-                });
-                rankGrid.appendChild(card);
-            });
+            function saveCart() {
+                localStorage.setItem('slimeesmp_cart', JSON.stringify(cart));
+            }
 
-            function updateBuyButton() {
-                const nick = nicknameInput.value.trim();
-                const pass = passwordInput.value.trim();
-                if (nick.length >= 2 && pass.length >= 3 && selectedRank) {
-                    buyButton.disabled = false;
-                    buyButton.textContent = `💰 KOUPIT ${selectedRank.name} ZA ${selectedRank.price.toLocaleString('cs-CZ')} $`;
-                } else {
-                    buyButton.disabled = true;
-                    buyButton.textContent = '💰 KOUPIT RANK';
+            function loadCart() {
+                try {
+                    const saved = localStorage.getItem('slimeesmp_cart');
+                    if (saved) {
+                        cart = JSON.parse(saved);
+                        if (!Array.isArray(cart)) cart = [];
+                    }
+                } catch (e) {
+                    cart = [];
                 }
             }
 
-            nicknameInput.addEventListener('input', () => {
-                nicknameInput.value = nicknameInput.value.replace(/[^a-zA-Z0-9_]/g, '').slice(0,16);
-                updateBuyButton();
-            });
-            passwordInput.addEventListener('input', updateBuyButton);
+            function updateCartUI() {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-            buyButton.addEventListener('click', async () => {
-                if (!selectedRank) return;
-                const nick = nicknameInput.value.trim();
-                const pass = passwordInput.value.trim();
+                cartCount.textContent = totalItems;
+                cartCount.classList.add('pulse');
+                setTimeout(() => cartCount.classList.remove('pulse'), 400);
 
-                buyButton.disabled = true;
-                buyButton.textContent = '⏳ ODESÍLÁM...';
+                cartTotal.textContent = formatMoney(totalPrice);
+                btnCheckout.disabled = cart.length === 0;
 
-                try {
-                    // ✅ Tvoje Railway adresa
-                    const response = await fetch('https://smp-backend-production-256d.up.railway.app/api/create-order', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nickname: nick, password: pass, rankId: selectedRank.id, price: selectedRank.price })
+                if (cart.length === 0) {
+                    cartItems.innerHTML = '<div class="cart-empty">Cart is empty 🛒<br><small>Add some items!</small></div>';
+                } else {
+                    cartItems.innerHTML = cart.map((item, index) => `
+                            <div class="cart-item">
+                                <span class="cart-item-icon">${item.icon || '📦'}</span>
+                                <div class="cart-item-info">
+                                    <div class="cart-item-name">${item.name}</div>
+                                    <div class="cart-item-price">${formatMoney(item.price)} × ${item.quantity} = <strong>${formatMoney(item.price * item.quantity)}</strong></div>
+                                </div>
+                                <button class="cart-item-remove" data-index="${index}" title="Remove">🗑️</button>
+                            </div>
+                        `).join('');
+
+                    document.querySelectorAll('.cart-item-remove').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const idx = parseInt(this.getAttribute('data-index'));
+                            removeFromCart(idx);
+                        });
                     });
-                    const data = await response.json();
-                    if (data.error) throw new Error(data.error);
-                    confirmCommand.textContent = `/store confirm ${data.token}`;
-                    confirmModal.classList.remove('hidden');
-                } catch (err) {
-                    statusMsg.textContent = '❌ CHYBA: ' + err.message;
-                } finally {
-                    buyButton.disabled = false;
-                    updateBuyButton();
+                }
+            }
+
+            function addToCart(name, price, icon) {
+                const existing = cart.find(item => item.name === name && item.price === price);
+                if (existing) {
+                    existing.quantity += 1;
+                } else {
+                    cart.push({
+                        name: name,
+                        price: price,
+                        icon: icon || '📦',
+                        quantity: 1
+                    });
+                }
+                saveCart();
+                updateCartUI();
+                showToast(`✅ ${name} added to cart!`);
+            }
+
+            function removeFromCart(index) {
+                if (index >= 0 && index < cart.length) {
+                    const removed = cart[index];
+                    if (removed.quantity > 1) {
+                        removed.quantity -= 1;
+                    } else {
+                        cart.splice(index, 1);
+                    }
+                    saveCart();
+                    updateCartUI();
+                    showToast(`❌ ${removed.name} removed from cart`);
+                }
+            }
+
+            function openCart() {
+                cartSidebar.classList.add('open');
+                cartOverlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeCart() {
+                cartSidebar.classList.remove('open');
+                cartOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            let toastTimer;
+            function showToast(message) {
+                clearTimeout(toastTimer);
+                toast.textContent = message;
+                toast.classList.add('show');
+                toastTimer = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
+            }
+
+            function handleCheckout() {
+                if (cart.length === 0) return;
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const itemList = cart.map(i => `${i.name} ×${i.quantity}`).join(', ');
+                alert(`🔔 Payment Simulation:\n\nItems: ${itemList}\nTotal: ${formatMoney(total)}\n\n⚠️ IMPORTANT: After purchase, message us on Discord and send the money first! We will then deliver your items.\n\nThank you for shopping at SlimeeSMP Store!\nVisit: SlimeSMP.aternos.me/Shop`);
+                cart = [];
+                saveCart();
+                updateCartUI();
+                closeCart();
+                showToast('🎉 Demo payment completed! Contact us on Discord.');
+            }
+
+            cartToggle.addEventListener('click', openCart);
+            cartClose.addEventListener('click', closeCart);
+            cartOverlay.addEventListener('click', closeCart);
+            btnCheckout.addEventListener('click', handleCheckout);
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && cartSidebar.classList.contains('open')) {
+                    closeCart();
                 }
             });
 
-            closeModalBtn.addEventListener('click', () => {
-                confirmModal.classList.add('hidden');
-                statusMsg.textContent = '⌛ ČEKÁ SE NA POTVRZENÍ VE HŘE...';
-            });
-            confirmModal.addEventListener('click', (e) => {
-                if (e.target === confirmModal) {
-                    confirmModal.classList.add('hidden');
-                    statusMsg.textContent = '⌛ ČEKÁ SE NA POTVRZENÍ VE HŘE...';
-                }
+            addButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const name = this.getAttribute('data-name');
+                    const price = parseInt(this.getAttribute('data-price'));
+                    const icon = this.getAttribute('data-icon');
+                    if (name && !isNaN(price)) {
+                        addToCart(name, price, icon);
+                        this.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 150);
+                    }
+                });
             });
 
-            updateBuyButton();
+            const serverIpEl = document.querySelector('.server-ip');
+            if (serverIpEl) {
+                serverIpEl.addEventListener('click', function() {
+                    const ip = this.textContent.trim();
+                    navigator.clipboard.writeText(ip).then(() => {
+                        showToast('📋 Address copied: ' + ip);
+                    }).catch(() => {
+                        showToast('📋 Address: ' + ip);
+                    });
+                });
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId && targetId.startsWith('#')) {
+                        const target = document.querySelector(targetId);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                            this.classList.add('active');
+                        }
+                    }
+                });
+            });
+
+            loadCart();
+            updateCartUI();
         })();
     </script>
 </body>
